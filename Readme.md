@@ -1,7 +1,7 @@
 # Личный проект «Кексобукинг» [![Build status][travis-image]][travis-url]
 
-* Студент: [Влад Поезжаев](https://up.htmlacademy.ru/javascript/20/user/25008).
-* Наставник: `Неизвестно`.
+- Студент: [Влад Поезжаев](https://up.htmlacademy.ru/javascript/20/user/25008).
+- Наставник: [Ольга Поликашина](https://htmlacademy.ru/profile/id890283).
 
 ---
 
