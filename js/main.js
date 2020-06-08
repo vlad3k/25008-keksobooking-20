@@ -94,7 +94,6 @@ function renderPins() {
 
   for (var i = 0; i < NUMBER_ADS; i++) {
     var pin = renderPin(offers[i]);
-    console.log(renderPin(offers[i]));
     fragment.appendChild(pin);
   }
 
