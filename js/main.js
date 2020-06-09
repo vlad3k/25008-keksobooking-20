@@ -36,12 +36,13 @@ function getRandomValueFromArray(arr) {
 }
 
 function generateOffer() {
-  var locationX = getRandomIntInclusive(0, mapPins.clientWidth - 50);
+  var pinSize = 50;
+  var locationX = getRandomIntInclusive(pinSize / 2, mapPins.clientWidth - pinSize / 2);
   var locationY = getRandomIntInclusive(130, 630);
 
   return {
     author: {
-      avatar: 'img/avatars/user0' + Math.floor(Math.random() * NUMBER_ADS + 1) + '.png',
+      avatar: 'img/avatars/user0' + getRandomIntInclusive(1, 8) + '.png',
     },
     offer: {
       title: getRandomValueFromArray(TITLES),
@@ -80,7 +81,6 @@ function renderPin(data) {
 
   pinElement.style.top = data.location.y + 'px';
   pinElement.style.left = data.location.x + 'px';
-  pinElement.style.transform = 'translate(-50%, -100%);';
 
   avatarElement.src = data.author.avatar;
   avatarElement.alt = data.offer.title;
