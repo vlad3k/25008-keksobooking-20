@@ -92,7 +92,7 @@ function renderPins() {
   var offers = generateOffers();
   var fragment = document.createDocumentFragment();
 
-  for (var i = 0; i < NUMBER_ADS; i++) {
+  for (var i = 0; i < offers.length ; i++) {
     var pin = renderPin(offers[i]);
     fragment.appendChild(pin);
   }
