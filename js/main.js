@@ -1,6 +1,8 @@
 'use strict';
 
 var NUMBER_ADS = 8;
+var PIN_WIDTH = 50;
+var PIN_HEIGHT = 70;
 var TITLES = ['Шикарная квартира 50 кв.м.', 'Уютная крвартира, дешево', 'Квартира с евроремонтом 48 кв.м.',
   'Дом в пригороде', 'Студия, 25 м², 5/12 эт.', 'Коттедж 150 кв.м.'];
 var PRICES = [25000, 17000, 15000, 23000, 21000, 19000, 45000, 38000, 50000];
@@ -36,8 +38,7 @@ function getRandomValueFromArray(arr) {
 }
 
 function generateOffer() {
-  var pinSize = 50;
-  var locationX = getRandomIntInclusive(pinSize / 2, mapPins.clientWidth - pinSize / 2);
+  var locationX = getRandomIntInclusive(PIN_WIDTH / 2, mapPins.clientWidth - PIN_WIDTH / 2);
   var locationY = getRandomIntInclusive(130, 630);
 
   return {
@@ -79,8 +80,8 @@ function renderPin(data) {
   var pinElement = clonePin.querySelector('.map__pin');
   var avatarElement = clonePin.querySelector('img');
 
-  pinElement.style.top = data.location.y + 'px';
-  pinElement.style.left = data.location.x + 'px';
+  pinElement.style.top = data.location.y - PIN_HEIGHT + 'px';
+  pinElement.style.left = data.location.x - PIN_WIDTH / 2 + 'px';
 
   avatarElement.src = data.author.avatar;
   avatarElement.alt = data.offer.title;
