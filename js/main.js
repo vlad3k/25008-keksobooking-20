@@ -42,7 +42,7 @@ function generateOffer() {
 
   return {
     author: {
-      avatar: 'img/avatars/user0' + getRandomIntInclusive(1, 8) + '.png',
+      avatar: 'img/avatars/user0' + getRandomIntInclusive(1, NUMBER_ADS) + '.png',
     },
     offer: {
       title: getRandomValueFromArray(TITLES),
