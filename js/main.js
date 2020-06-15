@@ -23,8 +23,29 @@ var PHOTOS = [
   'http://o0.github.io/assets/images/tokyo/hotel3.jpg'
 ];
 
-var mapPins = document.querySelector('.map__pins');
+var map = document.querySelector('.map');
+var mapFilters = map.querySelector('.map__filters');
+var mapFiltersSelects = mapFilters.querySelectorAll('select');
+var mapFilterFieldsets = mapFilters.querySelectorAll('fieldset');
 var pinTemplate = document.querySelector('#pin').content;
+var mainPin = map.querySelector('.map__pin--main');
+var mapPins = map.querySelector('.map__pins');
+var mainPinPosLeft = parseFloat(getComputedStyle(mainPin, null).left.replace('px', ''));
+var mainPinPosTop = parseFloat(getComputedStyle(mainPin, null).top.replace('px', ''));
+var mainPinWidth = 65;
+var mainPinHeight = 65;
+
+var adForm = document.querySelector('.ad-form');
+var adFormFieldsets = adForm.querySelectorAll('fieldset');
+var addressField = adForm.querySelector('#address');
+var adType = adForm.querySelector('[name="type"]');
+var adPrice = adForm.querySelector('[name="price"]');
+var adTimeIn = adForm.querySelector('#timein');
+var adTimeOut = adForm.querySelector('#timeout');
+var adRoomNumber = adForm.querySelector('#room_number');
+var adCapacity = adForm.querySelector('#capacity');
+
+var pinsFragment = renderPins();
 
 function getRandomIntInclusive(min, max) {
   min = Math.ceil(min);
@@ -98,9 +119,105 @@ function renderPins() {
     fragment.appendChild(pin);
   }
 
-  mapPins.appendChild(fragment);
-
-  document.querySelector('.map').classList.remove('map--faded');
+  return fragment;
 }
 
-renderPins();
+function enableControls(elements) {
+  for (var i = 0; i < elements.length; i++) {
+    elements[i].disabled = false;
+  }
+}
+
+function disableControls(elements) {
+  for (var i = 0; i < elements.length; i++) {
+    elements[i].disabled = true;
+  }
+}
+
+function setAddress() {
+  addressField.value = (mainPinPosLeft + mainPinWidth / 2) + ', ' + (mainPinPosTop - mainPinHeight);
+}
+
+function setPrice() {
+  var minPrice;
+  switch (adType.value) {
+    case 'bungalo':
+      minPrice = 0;
+      break;
+    case 'house':
+      minPrice = 5000;
+      break;
+    case 'palace':
+      minPrice = 10000;
+      break;
+    default:
+      minPrice = 1000;
+  }
+  adPrice.min = minPrice;
+  adPrice.placeholder = minPrice;
+}
+
+function setTimeIn() {
+  adTimeIn.value = adTimeOut.value;
+}
+
+function setTimeOut() {
+  adTimeOut.value = adTimeIn.value;
+}
+
+function setValidationCapacity() {
+  var rooms = parseInt(adRoomNumber.value, 10);
+  var places = parseInt(adCapacity.value, 10);
+  if (rooms < places) {
+    adCapacity.setCustomValidity('Мест не может быть больше чем количество комнат');
+  } else if (rooms === 100 && places !== 0) {
+    adCapacity.setCustomValidity('Помещение с таким количеством комнат не для гостей');
+  } else if (rooms < 100 && places === 0) {
+    adCapacity.setCustomValidity('Выбранное количество комнат предполагает минимум одно место');
+  } else {
+    adCapacity.setCustomValidity('');
+  }
+}
+
+function activatePage(evt) {
+  if (evt.button === 0 || evt.key === 'Enter') {
+    evt.preventDefault();
+    adForm.classList.remove('ad-form--disabled');
+    mapFilters.classList.remove('map__filters--disabled');
+    map.classList.remove('map--faded');
+    mapPins.appendChild(pinsFragment);
+    mainPinHeight += 22;
+
+    enableControls(adFormFieldsets);
+    enableControls(mapFiltersSelects);
+    enableControls(mapFilterFieldsets);
+
+    setAddress();
+    setValidationCapacity();
+  }
+}
+
+function loadPage() {
+  mainPin.addEventListener('mousedown', activatePage);
+  mainPin.addEventListener('keydown', activatePage);
+  adType.addEventListener('change', setPrice);
+  adTimeIn.addEventListener('change', setTimeOut);
+  adTimeOut.addEventListener('change', setTimeIn);
+  adRoomNumber.addEventListener('change', setValidationCapacity);
+  adCapacity.addEventListener('change', setValidationCapacity);
+
+  map.classList.add('map--faded');
+  adForm.classList.add('ad-form--disabled');
+  addressField.setAttribute('readonly', 'true');
+
+  disableControls(adFormFieldsets);
+  disableControls(mapFiltersSelects);
+  disableControls(mapFilterFieldsets);
+
+  setAddress();
+  setPrice();
+  setValidationCapacity();
+}
+
+loadPage();
+
