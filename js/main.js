@@ -28,12 +28,13 @@ var mapFilters = map.querySelector('.map__filters');
 var mapFiltersSelects = mapFilters.querySelectorAll('select');
 var mapFilterFieldsets = mapFilters.querySelectorAll('fieldset');
 var pinTemplate = document.querySelector('#pin').content;
-var mainPin = map.querySelector('.map__pin--main');
 var mapPins = map.querySelector('.map__pins');
-var mainPinPosLeft = parseFloat(getComputedStyle(mainPin, null).left.replace('px', ''));
-var mainPinPosTop = parseFloat(getComputedStyle(mainPin, null).top.replace('px', ''));
-var mainPinWidth = 65;
-var mainPinHeight = 65;
+var mainPin = map.querySelector('.map__pin--main');
+var mainPinPosLeft = getStylePropertyLikeNumber(mainPin, 'left');
+var mainPinPosTop = getStylePropertyLikeNumber(mainPin, 'top');
+var mainPinWidth = mainPin.clientWidth;
+var mainPinHeight = mainPin.clientHeight;
+var mainPinPointer = getStylePropertyLikeNumber(mainPin, 'height', ':after');
 
 var adForm = document.querySelector('.ad-form');
 var adFormFieldsets = adForm.querySelectorAll('fieldset');
@@ -46,6 +47,11 @@ var adRoomNumber = adForm.querySelector('#room_number');
 var adCapacity = adForm.querySelector('#capacity');
 
 var pinsFragment = renderPins();
+
+function getStylePropertyLikeNumber(element, property, pseudo) {
+  pseudo = typeof pseudo !== 'undefined' ?  pseudo : null;
+  return +getComputedStyle(element, pseudo)[property].replace('px', '');
+}
 
 function getRandomIntInclusive(min, max) {
   min = Math.ceil(min);
@@ -134,10 +140,6 @@ function disableControls(elements) {
   }
 }
 
-function setAddress() {
-  addressField.value = (mainPinPosLeft + mainPinWidth / 2) + ', ' + (mainPinPosTop - mainPinHeight);
-}
-
 function setPrice() {
   var minPrice;
   switch (adType.value) {
@@ -168,15 +170,20 @@ function setTimeOut() {
 function setValidationCapacity() {
   var rooms = parseInt(adRoomNumber.value, 10);
   var places = parseInt(adCapacity.value, 10);
+
   if (rooms < places) {
     adCapacity.setCustomValidity('Мест не может быть больше чем количество комнат');
-  } else if (rooms === 100 && places !== 0) {
-    adCapacity.setCustomValidity('Помещение с таким количеством комнат не для гостей');
-  } else if (rooms < 100 && places === 0) {
-    adCapacity.setCustomValidity('Выбранное количество комнат предполагает минимум одно место');
-  } else {
-    adCapacity.setCustomValidity('');
+    return;
   }
+  if (rooms === 100 && places !== 0) {
+    adCapacity.setCustomValidity('Помещение с таким количеством комнат не для гостей');
+    return;
+  }
+  if (rooms < 100 && places === 0) {
+    adCapacity.setCustomValidity('Выбранное количество комнат предполагает минимум одно место');
+    return;
+  }
+  adCapacity.setCustomValidity('');
 }
 
 function activatePage(evt) {
@@ -186,13 +193,11 @@ function activatePage(evt) {
     mapFilters.classList.remove('map__filters--disabled');
     map.classList.remove('map--faded');
     mapPins.appendChild(pinsFragment);
-    mainPinHeight += 22;
 
     enableControls(adFormFieldsets);
     enableControls(mapFiltersSelects);
     enableControls(mapFilterFieldsets);
-
-    setAddress();
+    addressField.value = (mainPinPosLeft + mainPinWidth / 2) + ', ' + (mainPinPosTop + mainPinHeight + mainPinPointer);
     setValidationCapacity();
   }
 }
@@ -213,8 +218,7 @@ function loadPage() {
   disableControls(adFormFieldsets);
   disableControls(mapFiltersSelects);
   disableControls(mapFilterFieldsets);
-
-  setAddress();
+  addressField.value = (mainPinPosLeft + mainPinWidth / 2) + ', ' + (mainPinPosTop + mainPinHeight / 2);
   setPrice();
   setValidationCapacity();
 }
