@@ -49,7 +49,7 @@ var adCapacity = adForm.querySelector('#capacity');
 var pinsFragment = renderPins();
 
 function getStylePropertyLikeNumber(element, property, pseudo) {
-  pseudo = typeof pseudo !== 'undefined' ?  pseudo : null;
+  pseudo = typeof pseudo !== 'undefined' ? pseudo : null;
   return +getComputedStyle(element, pseudo)[property].replace('px', '');
 }
 
