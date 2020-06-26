@@ -1,7 +1,8 @@
 'use strict';
 
 window.pin = (function () {
-  var mainPin = window.data.mainPin;
+  var map = document.querySelector('.map');
+  var mainPin = map.querySelector('.map__pin--main');
   var mainPinPosLeft = window.utils.getStylePropertyLikeNumber(mainPin, 'left');
   var mainPinPosTop = window.utils.getStylePropertyLikeNumber(mainPin, 'top');
   var mainPinWidth = mainPin.clientWidth;
@@ -16,8 +17,8 @@ window.pin = (function () {
     var clonePin = pinTemplate.cloneNode(true);
     var pinElement = clonePin.querySelector('.map__pin');
     var avatarElement = clonePin.querySelector('img');
-    pinElement.style.top = data.location.y - window.data.PIN_HEIGHT + 'px';
-    pinElement.style.left = data.location.x - window.data.PIN_WIDTH / 2 + 'px';
+    pinElement.style.top = data.location.y - window.constants.PIN_HEIGHT + 'px';
+    pinElement.style.left = data.location.x - window.constants.PIN_WIDTH / 2 + 'px';
 
     avatarElement.src = data.author.avatar;
     avatarElement.alt = data.offer.title;

@@ -1,6 +1,7 @@
 'use strict';
 
 window.form = (function () {
+  var map = document.querySelector('.map');
   var adForm = document.querySelector('.ad-form');
   var adType = adForm.querySelector('[name="type"]');
   var adPrice = adForm.querySelector('[name="price"]');
@@ -11,7 +12,7 @@ window.form = (function () {
   var adFormFieldsets = adForm.querySelectorAll('fieldset');
   var addressField = adForm.querySelector('#address');
 
-  var mapFilters = window.data.map.querySelector('.map__filters');
+  var mapFilters = map.querySelector('.map__filters');
   var mapFiltersSelects = mapFilters.querySelectorAll('select');
   var mapFilterFieldsets = mapFilters.querySelectorAll('fieldset');
 
@@ -73,33 +74,34 @@ window.form = (function () {
     }
   }
 
-  function disableAllControls() {
-    disableControls(adFormFieldsets);
-    disableControls(mapFiltersSelects);
-    disableControls(mapFilterFieldsets);
-  }
-
-  function enableAllControls() {
+  function activateForm() {
     enableControls(adFormFieldsets);
     enableControls(mapFiltersSelects);
     enableControls(mapFilterFieldsets);
+    adForm.classList.remove('ad-form--disabled');
+    mapFilters.classList.remove('map__filters--disabled');
+    addressField.value = window.pin.pinPositionCenter;
+    setValidationCapacity();
+  }
+
+  function initForm() {
+    disableControls(adFormFieldsets);
+    disableControls(mapFiltersSelects);
+    disableControls(mapFilterFieldsets);
+    adType.addEventListener('change', setPrice);
+    adTimeIn.addEventListener('change', setTimeOut);
+    adTimeOut.addEventListener('change', setTimeIn);
+    adRoomNumber.addEventListener('change', setValidationCapacity);
+    adCapacity.addEventListener('change', setValidationCapacity);
+    adForm.classList.add('ad-form--disabled');
+    addressField.setAttribute('readonly', 'true');
+    addressField.value = window.pin.pinPositionPointer;
+    setPrice();
+    setValidationCapacity();
   }
 
   return {
-    adForm: adForm,
-    adType: adType,
-    adTimeIn: adTimeIn,
-    adTimeOut: adTimeOut,
-    adRoomNumber: adRoomNumber,
-    adCapacity: adCapacity,
-    mapFilters: mapFilters,
-    addressField: addressField,
-    adFormFieldsets: adFormFieldsets,
-    enableAllControls: enableAllControls,
-    disableAllControls: disableAllControls,
-    setValidationCapacity: setValidationCapacity,
-    setTimeOut: setTimeOut,
-    setTimeIn: setTimeIn,
-    setPrice: setPrice,
+    activateForm: activateForm,
+    initForm: initForm,
   };
 })();
