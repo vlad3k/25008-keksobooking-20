@@ -1,8 +1,29 @@
 'use strict';
 
 window.data = (function () {
-  var map = document.querySelector('.map');
-  var mapPins = map.querySelector('.map__pins');
+  var NUMBER_ADS = 8;
+  var TITLES = ['Шикарная квартира 50 кв.м.', 'Уютная крвартира, дешево', 'Квартира с евроремонтом 48 кв.м.',
+    'Дом в пригороде', 'Студия, 25 м², 5/12 эт.', 'Коттедж 150 кв.м.'];
+  var PRICES = [25000, 17000, 15000, 23000, 21000, 19000, 45000, 38000, 50000];
+  var TYPES = ['palace', 'flat', 'house', 'bungalo'];
+  var NUMBER_ROOMS = [1, 3, 6, 4, 5, 2];
+  var GUESTS = [3, 9, 5, 4, 8, 10];
+  var CHECKINS = ['12:00', '13:00', '14:00'];
+  var CHECKOUTS = ['12:00', '13:00', '14:00'];
+  var FEATURES = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
+  var DESCRIPTIONS = [
+    'В продаже однокомнатная квартира с прекрасным видом на парк и Лахта центр! Просторная комната с удобной нишей, балкон, раздельный санузел. В квартире частично выполнен ремонт: стеклопакеты, линолеум, металлическая входная дверь. Хороший дом, чистый подъезд.',
+    'Сдается 1-к квартира в ЖК «Летний» на Пулковском шоссе. Квартира сдаётся впервые. Площадь 38 кв м. Лоджия с остеклением до пола. Имеются все условия для комфортного проживания: два шкафа-купе и один полочный (много места для хранения вещей). Из техники: стиральная машина, холодильник, электрический чайник, телевизор, варочная панель, духовая печь, микроволновая печь, WiFi-роутер. Фильтр для очистки воды.',
+    'Новый дом,шведский комплекс «Элланд», закрытая территория, 5 минут до метро! В квартире новый ремонт, вся необходимая техника. На длительный срок от собственника.'
+  ];
+  var PHOTOS = [
+    'http://o0.github.io/assets/images/tokyo/hotel1.jpg',
+    'http://o0.github.io/assets/images/tokyo/hotel2.jpg',
+    'http://o0.github.io/assets/images/tokyo/hotel3.jpg'
+  ];
+
+  var mapPins = document.querySelector('.map__pins');
+
 
   function generateOffer() {
     var locationX = window.utils.getRandomIntInclusive(window.constants.PIN_WIDTH / 2, mapPins.clientWidth - window.constants.PIN_WIDTH / 2);
@@ -10,20 +31,20 @@ window.data = (function () {
 
     return {
       author: {
-        avatar: 'img/avatars/user0' + window.utils.getRandomIntInclusive(1, window.constants.NUMBER_ADS) + '.png',
+        avatar: 'img/avatars/user0' + window.utils.getRandomIntInclusive(1, NUMBER_ADS) + '.png',
       },
       offer: {
-        title: window.utils.getRandomValueFromArray(window.constants.TITLES),
+        title: window.utils.getRandomValueFromArray(TITLES),
         address: locationX + ', ' + locationY,
-        price: window.utils.getRandomValueFromArray(window.constants.PRICES),
-        type: window.utils.getRandomValueFromArray(window.constants.TYPES),
-        rooms: window.utils.getRandomValueFromArray(window.constants.NUMBER_ROOMS),
-        guests: window.utils.getRandomValueFromArray(window.constants.GUESTS),
-        checkin: window.utils.getRandomValueFromArray(window.constants.CHECKINS),
-        checkout: window.utils.getRandomValueFromArray(window.constants.CHECKOUTS),
-        features: window.utils.getRandomValueFromArray(window.constants.FEATURES),
-        description: window.utils.getRandomValueFromArray(window.constants.DESCRIPTIONS),
-        photos: window.utils.getRandomValueFromArray(window.constants.PHOTOS),
+        price: window.utils.getRandomValueFromArray(PRICES),
+        type: window.utils.getRandomValueFromArray(TYPES),
+        rooms: window.utils.getRandomValueFromArray(NUMBER_ROOMS),
+        guests: window.utils.getRandomValueFromArray(GUESTS),
+        checkin: window.utils.getRandomValueFromArray(CHECKINS),
+        checkout: window.utils.getRandomValueFromArray(CHECKOUTS),
+        features: window.utils.getRandomValueFromArray(FEATURES),
+        description: window.utils.getRandomValueFromArray(DESCRIPTIONS),
+        photos: window.utils.getRandomValueFromArray(PHOTOS),
       },
       location: {
         x: locationX,
@@ -34,7 +55,7 @@ window.data = (function () {
 
   function generateOffers() {
     var offers = [];
-    for (var i = 0; i < window.constants.NUMBER_ADS; i++) {
+    for (var i = 0; i < NUMBER_ADS; i++) {
       var offer = generateOffer();
       offers.push(offer);
     }

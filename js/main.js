@@ -1,12 +1,17 @@
 'use strict';
 var mapElement = document.querySelector('.map');
 var mainPin = mapElement.querySelector('.map__pin--main');
+var mapPins = mapElement.querySelector('.map__pins');
 
 function activatePage(evt) {
   if (evt.button === 0 || evt.key === 'Enter') {
     evt.preventDefault();
+    var ads = window.data.generateOffers();
+    var pinsFragment = window.map.renderPins(ads);
+
     window.form.activateForm();
-    window.map.activateMap();
+    mapElement.classList.remove('map--faded');
+    mapPins.appendChild(pinsFragment);
   }
 }
 
