@@ -1,7 +1,7 @@
 'use strict';
 
 window.load = (function () {
-  function getData(onSuccess, onError) {
+  function getData(onSuccess) {
     var URL = 'https://javascript.pages.academy/keksobooking/data';
     var StatusCode = {
       OK: 200
@@ -22,5 +22,5 @@ window.load = (function () {
 
   return {
     getData: getData
-  }
+  };
 })();
