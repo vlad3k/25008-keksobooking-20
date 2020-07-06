@@ -6,12 +6,12 @@ var mapPins = mapElement.querySelector('.map__pins');
 function activatePage(evt) {
   if (evt.button === 0 || evt.key === 'Enter') {
     evt.preventDefault();
-    var ads = window.data.generateOffers();
-    var pinsFragment = window.map.renderPins(ads);
-
     window.form.activateForm();
-    mapElement.classList.remove('map--faded');
-    mapPins.appendChild(pinsFragment);
+    window.load.getData(function (ads) {
+      var pinsFragment = window.map.renderPins(ads);
+      mapElement.classList.remove('map--faded');
+      mapPins.appendChild(pinsFragment);
+    });
   }
 }
 
