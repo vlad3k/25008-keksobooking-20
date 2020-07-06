@@ -30,7 +30,7 @@ window.card = (function () {
     add.offer.title ? titleElement.textContent = add.offer.title : titleElement.remove();
     add.offer.address ? addressElement.textContent = add.offer.address : addressElement.remove();
     add.offer.price ? priceElement.textContent = add.offer.price + '₽/ночь' : priceElement.remove();
-    add.offer.type ? typeElement.textContent =  typesOfHouse[add.offer.type] : typeElement.remove();
+    add.offer.type ? typeElement.textContent = typesOfHouse[add.offer.type] : typeElement.remove();
     add.offer.capacity ? capacityElement.textContent =
       add.offer.rooms + ' комнаты для ' + add.offer.guests + ' гостей' : capacityElement.remove();
     add.offer.checkin ? timestampsElement.textContent =
@@ -55,10 +55,10 @@ window.card = (function () {
 
     if (add.offer.features) {
       featuresElement.innerHTML = '';
-      for (var i = 0; i < add.offer.features.length; i++) {
+      for (var j = 0; j < add.offer.features.length; j++) {
         var li = document.createElement('li');
-        li.classList.add('popup__feature', 'popup__feature--' + add.offer.features[i]);
-        li.textContent = add.offer.features[i];
+        li.classList.add('popup__feature', 'popup__feature--' + add.offer.features[j]);
+        li.textContent = add.offer.features[j];
         featuresFragment.appendChild(li);
         featuresElement.appendChild(featuresFragment);
       }
@@ -71,5 +71,5 @@ window.card = (function () {
 
   return {
     renderCard: renderCard,
-  }
+  };
 })();
