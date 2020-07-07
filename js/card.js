@@ -27,16 +27,53 @@ window.card = (function () {
     var photosElement = cloneCard.querySelector('.popup__photos');
     var featuresElement = cloneCard.querySelector('.popup__features ');
 
-    add.offer.title ? titleElement.textContent = add.offer.title : titleElement.remove();
-    add.offer.address ? addressElement.textContent = add.offer.address : addressElement.remove();
-    add.offer.price ? priceElement.textContent = add.offer.price + '₽/ночь' : priceElement.remove();
-    add.offer.type ? typeElement.textContent = typesOfHouse[add.offer.type] : typeElement.remove();
-    add.offer.capacity ? capacityElement.textContent =
-      add.offer.rooms + ' комнаты для ' + add.offer.guests + ' гостей' : capacityElement.remove();
-    add.offer.checkin ? timestampsElement.textContent =
-      'Заезд после ' + add.offer.checkin + ', выезд до ' + add.offer.checkout : timestampsElement.remove();
-    add.offer.description ? descriptionElement.textContent = add.offer.description : descriptionElement.remove();
-    add.author.avatar ? avatarElement.src = add.author.avatar : avatarElement.remove();
+    if (add.offer.title) {
+      titleElement.textContent = add.offer.title;
+    } else {
+      titleElement.remove();
+    }
+
+    if (add.offer.address) {
+      addressElement.textContent = add.offer.address;
+    } else {
+      addressElement.remove();
+    }
+
+    if (add.offer.price) {
+      priceElement.textContent = add.offer.price + '₽/ночь';
+    } else {
+      priceElement.remove();
+    }
+
+    if (add.offer.type) {
+      typeElement.textContent = typesOfHouse[add.offer.type];
+    } else {
+      typeElement.remove();
+    }
+
+    if (add.offer.capacity) {
+      capacityElement.textContent = add.offer.rooms + ' комнаты для ' + add.offer.guests + ' гостей';
+    } else {
+      capacityElement.remove();
+    }
+
+    if (add.offer.checkin) {
+      timestampsElement.textContent = 'Заезд после ' + add.offer.checkin + ', выезд до ' + add.offer.checkout;
+    } else {
+      timestampsElement.remove();
+    }
+
+    if (add.offer.description) {
+      descriptionElement.textContent = add.offer.description;
+    } else {
+      descriptionElement.remove();
+    }
+
+    if (add.author.avatar) {
+      avatarElement.src = add.author.avatar;
+    } else {
+      avatarElement.remove();
+    }
 
     if (add.offer.photos) {
       photosElement.innerHTML = '';
