@@ -5,13 +5,6 @@ window.card = (function () {
   var map = document.querySelector('.map');
   var mapFiltersContainer = map.querySelector('.map__filters-container');
 
-  var typesOfHouse = {
-    flat: 'Квартира',
-    bungalo: 'Бунгало',
-    house: 'Дом',
-    palace: 'Дворец',
-  };
-
   function renderCard(add) {
     var photosFragment = document.createDocumentFragment();
     var featuresFragment = document.createDocumentFragment();
@@ -25,7 +18,11 @@ window.card = (function () {
     var descriptionElement = cloneCard.querySelector('.popup__description');
     var avatarElement = cloneCard.querySelector('.popup__avatar');
     var photosElement = cloneCard.querySelector('.popup__photos');
-    var featuresElement = cloneCard.querySelector('.popup__features ');
+    var featuresElement = cloneCard.querySelector('.popup__features');
+
+    if (!add || !add.offer) {
+      return;
+    }
 
     if (add.offer.title) {
       titleElement.textContent = add.offer.title;
@@ -46,18 +43,18 @@ window.card = (function () {
     }
 
     if (add.offer.type) {
-      typeElement.textContent = typesOfHouse[add.offer.type];
+      typeElement.textContent = window.constants.TYPE_OF_HOUSE[add.offer.type];
     } else {
       typeElement.remove();
     }
 
-    if (add.offer.capacity) {
+    if (add.offer.rooms && add.offer.guests) {
       capacityElement.textContent = add.offer.rooms + ' комнаты для ' + add.offer.guests + ' гостей';
     } else {
       capacityElement.remove();
     }
 
-    if (add.offer.checkin) {
+    if (add.offer.checkin && add.offer.checkout) {
       timestampsElement.textContent = 'Заезд после ' + add.offer.checkin + ', выезд до ' + add.offer.checkout;
     } else {
       timestampsElement.remove();
