@@ -100,6 +100,23 @@ window.form = (function () {
     setValidationCapacity();
   }
 
+
+  adForm.addEventListener('submit', function (evt) {
+    window.load.sendData(new FormData(adForm),
+      function (response) {
+      mapElement.classList.add('map--faded');
+
+      window.modal.renderSuccessModal();
+      window.map.removePins();
+      adForm.reset();
+      initForm();
+    },
+    function () {
+      window.modal.renderErrorModal();
+    });
+    evt.preventDefault();
+  });
+
   return {
     activateForm: activateForm,
     initForm: initForm,
