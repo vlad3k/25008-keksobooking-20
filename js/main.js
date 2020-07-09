@@ -11,6 +11,7 @@ function activatePage(evt) {
       var pinsFragment = window.map.renderPins(ads);
       mapElement.classList.remove('map--faded');
       mapPins.appendChild(pinsFragment);
+      window.card.renderCard(ads[2]);
     });
   }
 }
