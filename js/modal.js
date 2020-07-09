@@ -1,3 +1,5 @@
+'use strict';
+
 window.modal = (function () {
   var main = document.querySelector('main');
 
