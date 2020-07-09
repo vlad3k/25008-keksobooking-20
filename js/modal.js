@@ -1,12 +1,6 @@
 window.modal = (function () {
   var main = document.querySelector('main');
 
-  function onClosePopupByEsc(evt) {
-    if (evt.key === 'Escape') {
-
-    }
-  }
-
   function renderSuccessModal() {
     var successModalClone = document.querySelector('#success')
       .content
@@ -24,7 +18,6 @@ window.modal = (function () {
         successModalClone.remove();
       }
     });
-
 
     main.appendChild(successModalClone);
   }
@@ -47,7 +40,11 @@ window.modal = (function () {
       }
     });
 
-    document.addEventListener('keydown', onClosePopupByEsc);
+    document.addEventListener('keydown', function (evt) {
+      if (evt.key === 'Escape') {
+        errorModalClone.remove();
+      }
+    });
 
     main.appendChild(errorModalClone);
   }

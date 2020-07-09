@@ -111,9 +111,7 @@ window.form = (function () {
       adForm.reset();
       initForm();
     },
-    function () {
-      window.modal.renderErrorModal();
-    });
+    window.modal.renderErrorModal);
     evt.preventDefault();
   });
 
