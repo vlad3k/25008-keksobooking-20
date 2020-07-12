@@ -19,7 +19,7 @@ window.card = (function () {
       bungalo: 'Бунгало',
       house: 'Дом',
       palace: 'Дворец',
-    }
+    };
     var photosFragment = document.createDocumentFragment();
     var featuresFragment = document.createDocumentFragment();
     var cloneCard = cardTemplate.cloneNode(true);
