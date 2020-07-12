@@ -8,10 +8,10 @@ function activatePage(evt) {
     evt.preventDefault();
     window.form.activateForm();
     window.load.getData(function (ads) {
+      window.data.ads = ads;
       var pinsFragment = window.map.renderPins(ads);
       mapElement.classList.remove('map--faded');
       mapPins.appendChild(pinsFragment);
-      window.card.renderCard(ads[2]);
     });
   }
 }

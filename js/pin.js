@@ -13,10 +13,11 @@ window.pin = (function () {
   var pinPositionPointer = (mainPinPosLeft + mainPinWidth / 2) + ', ' + (mainPinPosTop + mainPinHeight / 2);
   var pinTemplate = document.querySelector('#pin').content;
 
-  function renderPin(data) {
+  function renderPin(data, id) {
     var clonePin = pinTemplate.cloneNode(true);
     var pinElement = clonePin.querySelector('.map__pin');
     var avatarElement = clonePin.querySelector('img');
+    pinElement.dataset.number = id;
     pinElement.style.top = data.location.y - window.constants.PIN_HEIGHT + 'px';
     pinElement.style.left = data.location.x - window.constants.PIN_WIDTH / 2 + 'px';
 
