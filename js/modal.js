@@ -3,11 +3,19 @@
 window.modal = (function () {
   var main = document.querySelector('main');
 
+  function handleEsc(el, evt) {
+    if (evt.key === 'Escape') {
+      el.remove();
+      el.removeEventListener('keydown', handleEsc);
+    }
+  }
+
   function renderSuccessModal() {
     var successModalClone = document.querySelector('#success')
       .content
       .querySelector('.success')
       .cloneNode(true);
+    var handleSuccessEsc = handleEsc.bind(null, successModalClone);
 
     successModalClone.addEventListener('click', function (evt) {
       if (evt.target && evt.target.matches('.success')) {
@@ -15,11 +23,7 @@ window.modal = (function () {
       }
     });
 
-    document.addEventListener('keydown', function (evt) {
-      if (evt.key === 'Escape') {
-        successModalClone.remove();
-      }
-    });
+    document.addEventListener('keydown', handleSuccessEsc);
 
     main.appendChild(successModalClone);
   }
@@ -29,8 +33,8 @@ window.modal = (function () {
       .content
       .querySelector('.error')
       .cloneNode(true);
-
     var errorButton = errorModalClone.querySelector('.error__button');
+    var handleErrorEsc = handleEsc.bind(null, errorModalClone);
 
     errorButton.addEventListener('click', function () {
       errorModalClone.remove();
@@ -42,11 +46,7 @@ window.modal = (function () {
       }
     });
 
-    document.addEventListener('keydown', function (evt) {
-      if (evt.key === 'Escape') {
-        errorModalClone.remove();
-      }
-    });
+    document.addEventListener('keydown', handleErrorEsc);
 
     main.appendChild(errorModalClone);
   }

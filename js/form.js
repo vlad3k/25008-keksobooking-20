@@ -11,7 +11,6 @@ window.form = (function () {
   var adCapacity = adForm.querySelector('#capacity');
   var adFormFieldsets = adForm.querySelectorAll('fieldset');
   var addressField = adForm.querySelector('#address');
-
   var mapFilters = mapElement.querySelector('.map__filters');
   var mapFiltersSelects = mapFilters.querySelectorAll('select');
   var mapFilterFieldsets = mapFilters.querySelectorAll('fieldset');
@@ -100,6 +99,14 @@ window.form = (function () {
     setValidationCapacity();
   }
 
+  function handleResetFormPage(evt) {
+    evt.preventDefault();
+    window.map.removePins();
+    mapElement.classList.add('map--faded');
+    mapFilters.reset();
+    initForm();
+  }
+
 
   adForm.addEventListener('submit', function (evt) {
     window.load.sendData(
@@ -115,6 +122,8 @@ window.form = (function () {
         window.modal.renderErrorModal);
     evt.preventDefault();
   });
+
+  adForm.addEventListener('reset', handleResetFormPage);
 
   return {
     activateForm: activateForm,

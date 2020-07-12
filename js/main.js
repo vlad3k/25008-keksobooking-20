@@ -5,7 +5,7 @@ var mainPin = mapElement.querySelector('.map__pin--main');
 var mapPins = mapElement.querySelector('.map__pins');
 
 function activatePage(evt) {
-  if (evt.button === 0 || evt.key === 'Enter') {
+  if ((evt.button === 0 || evt.key === 'Enter') && mapElement.classList.contains('map--faded')) {
     evt.preventDefault();
     window.form.activateForm();
     window.load.getData(function (ads) {
