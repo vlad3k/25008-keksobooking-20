@@ -10,7 +10,7 @@ window.load = (function () {
     var URL = 'https://javascript.pages.academy/keksobooking/data';
 
     var xhr = new XMLHttpRequest();
-    xhr.timeout = timeout;
+    xhr.timeout = TIMEOUT;
     xhr.responseType = 'json';
 
     xhr.addEventListener('load', function () {
@@ -31,7 +31,7 @@ window.load = (function () {
     var URL = 'https://javascript.pages.academy/keksobooking';
 
     var xhr = new XMLHttpRequest();
-    xhr.timeout = timeout;
+    xhr.timeout = TIMEOUT;
     xhr.responseType = 'json';
 
     xhr.addEventListener('load', function () {
