@@ -4,9 +4,9 @@ window.load = (function () {
   var StatusCode = {
     OK: 200
   };
-  var timeout = 10000;
+  var TIMEOUT = 10000;
 
-  function getData(onSuccess) {
+  function getData(onSuccess, onError) {
     var URL = 'https://javascript.pages.academy/keksobooking/data';
 
     var xhr = new XMLHttpRequest();
@@ -18,6 +18,10 @@ window.load = (function () {
         onSuccess(xhr.response);
       }
     });
+
+    xhr.addEventListener('error', onError);
+
+    xhr.addEventListener('timeout', onError);
 
     xhr.open('GET', URL);
     xhr.send();
@@ -36,13 +40,9 @@ window.load = (function () {
       }
     });
 
-    xhr.addEventListener('error', function () {
-      onError();
-    });
+    xhr.addEventListener('error', onError);
 
-    xhr.addEventListener('timeout', function () {
-      onError();
-    });
+    xhr.addEventListener('timeout', onError);
 
     xhr.open('POST', URL);
     xhr.send(data);
