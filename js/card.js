@@ -14,11 +14,11 @@ window.card = (function () {
   }
 
   function renderCard(add) {
-    var TYPE_OF_HOUSE = {
-      flat: 'Квартира',
-      bungalo: 'Бунгало',
-      house: 'Дом',
-      palace: 'Дворец',
+    var typeOfHouse = {
+      FLAT: 'Квартира',
+      BUNGALO: 'Бунгало',
+      HOUSE: 'Дом',
+      PALACE: 'Дворец',
     };
     var photosFragment = document.createDocumentFragment();
     var featuresFragment = document.createDocumentFragment();
@@ -58,7 +58,7 @@ window.card = (function () {
     }
 
     if (add.offer.type) {
-      typeElement.textContent = TYPE_OF_HOUSE[add.offer.type];
+      typeElement.textContent = typeOfHouse[add.offer.type.toUpperCase()];
     } else {
       typeElement.remove();
     }
@@ -131,9 +131,9 @@ window.card = (function () {
 
   function handleOpenCard(evt) {
     var btn = evt.target.closest('.map__pin:not(.map__pin--main)');
-    if (btn && window.data.ads) {
+    if (btn && window.map.ads) {
       removeCard();
-      renderCard(window.data.ads[btn.dataset.number]);
+      renderCard(window.map.ads[btn.dataset.number]);
     }
   }
 

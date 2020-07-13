@@ -1,4 +1,5 @@
 'use strict';
+
 var mapElement = document.querySelector('.map');
 var mainPin = mapElement.querySelector('.map__pin--main');
 var mapPins = mapElement.querySelector('.map__pins');
@@ -8,7 +9,7 @@ function activatePage(evt) {
     evt.preventDefault();
     window.form.activateForm();
     window.load.getData(function (ads) {
-      window.data.ads = ads;
+      window.map.ads = ads;
       var pinsFragment = window.map.renderPins(ads);
       mapElement.classList.remove('map--faded');
       mapPins.appendChild(pinsFragment);
@@ -24,4 +25,5 @@ function loadPage() {
 }
 
 loadPage();
+
 
