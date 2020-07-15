@@ -11,7 +11,7 @@ window.map = (function () {
 
     return fragment;
   }
-  
+
   function removePins() {
     var mapPins = document.querySelectorAll('.map__pin:not(.map__pin--main)');
     for (var j = 0; j < mapPins.length; j++) {
