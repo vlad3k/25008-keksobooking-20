@@ -131,9 +131,10 @@ window.card = (function () {
 
   function handleOpenCard(evt) {
     var btn = evt.target.closest('.map__pin:not(.map__pin--main)');
-    if (btn && window.map.ads) {
+    if (btn) {
+      var add = window.main.getAddById(btn.dataset.number);
       removeCard();
-      renderCard(window.map.ads[btn.dataset.number]);
+      renderCard(add);
     }
   }
 

@@ -1,7 +1,6 @@
 'use strict';
 
 window.map = (function () {
-  var ads = null;
 
   function renderPins(offers) {
     var fragment = document.createDocumentFragment();
@@ -15,7 +14,6 @@ window.map = (function () {
 
 
   return {
-    ads: ads,
     renderPins: renderPins,
   };
 })();
