@@ -1,7 +1,7 @@
 'use strict';
 
 window.form = (function () {
-  var map = document.querySelector('.map');
+  var mapElement = document.querySelector('.map');
   var adForm = document.querySelector('.ad-form');
   var adType = adForm.querySelector('[name="type"]');
   var adPrice = adForm.querySelector('[name="price"]');
@@ -11,8 +11,7 @@ window.form = (function () {
   var adCapacity = adForm.querySelector('#capacity');
   var adFormFieldsets = adForm.querySelectorAll('fieldset');
   var addressField = adForm.querySelector('#address');
-
-  var mapFilters = map.querySelector('.map__filters');
+  var mapFilters = mapElement.querySelector('.map__filters');
   var mapFiltersSelects = mapFilters.querySelectorAll('select');
   var mapFilterFieldsets = mapFilters.querySelectorAll('fieldset');
 
@@ -99,6 +98,32 @@ window.form = (function () {
     setPrice();
     setValidationCapacity();
   }
+
+  function handleResetFormPage(evt) {
+    evt.preventDefault();
+    window.map.removePins();
+    mapElement.classList.add('map--faded');
+    mapFilters.reset();
+    initForm();
+  }
+
+
+  adForm.addEventListener('submit', function (evt) {
+    window.load.sendData(
+        new FormData(adForm),
+        function () {
+          mapElement.classList.add('map--faded');
+
+          window.modal.renderSuccessModal();
+          window.map.removePins();
+          adForm.reset();
+          initForm();
+        },
+        window.modal.renderErrorModal);
+    evt.preventDefault();
+  });
+
+  adForm.addEventListener('reset', handleResetFormPage);
 
   return {
     activateForm: activateForm,
