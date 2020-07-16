@@ -14,8 +14,13 @@ window.form = (function () {
   var mapFilters = mapElement.querySelector('.map__filters');
   var mapFiltersSelects = mapFilters.querySelectorAll('select');
   var mapFilterFieldsets = mapFilters.querySelectorAll('fieldset');
+  var mainPin = mapElement.querySelector('.map__pin--main');
 
-  function setPrice() {
+  var mainPinWidth = mainPin.clientWidth;
+  var mainPinHeight = mainPin.clientHeight;
+  var mainPinPointerHeight = window.utils.getStylePropertyLikeNumber(mainPin, 'height', ':after');
+
+    function setPrice() {
     var minPrice;
     switch (adType.value) {
       case 'bungalo':
@@ -40,6 +45,12 @@ window.form = (function () {
 
   function setTimeOut() {
     adTimeOut.value = adTimeIn.value;
+  }
+
+  function setAddress(x, y) {
+    var coordX = x + (mainPinWidth / 2);
+    var coordY = y + mainPinHeight + mainPinPointerHeight;
+    addressField.value = coordX + ', ' + coordY;
   }
 
   function setValidationCapacity() {
@@ -79,7 +90,7 @@ window.form = (function () {
     enableControls(mapFilterFieldsets);
     adForm.classList.remove('ad-form--disabled');
     mapFilters.classList.remove('map__filters--disabled');
-    addressField.value = window.pin.pinPositionCenter;
+    setAddress(mainPin.offsetLeft, mainPin.offsetTop);
     setValidationCapacity();
   }
 
@@ -94,7 +105,7 @@ window.form = (function () {
     adCapacity.addEventListener('change', setValidationCapacity);
     adForm.classList.add('ad-form--disabled');
     addressField.setAttribute('readonly', 'true');
-    addressField.value = window.pin.pinPositionPointer;
+    addressField.value = (mainPin.offsetLeft + mainPinWidth / 2) + ', ' + (mainPin.offsetTop + mainPinHeight / 2);
     setPrice();
     setValidationCapacity();
   }
@@ -107,13 +118,11 @@ window.form = (function () {
     initForm();
   }
 
-
   adForm.addEventListener('submit', function (evt) {
     window.load.sendData(
         new FormData(adForm),
         function () {
           mapElement.classList.add('map--faded');
-
           window.modal.renderSuccessModal();
           window.map.removePins();
           adForm.reset();

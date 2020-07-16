@@ -1,16 +1,6 @@
 'use strict';
 
 window.pin = (function () {
-  var map = document.querySelector('.map');
-  var mainPin = map.querySelector('.map__pin--main');
-  var mainPinPosLeft = window.utils.getStylePropertyLikeNumber(mainPin, 'left');
-  var mainPinPosTop = window.utils.getStylePropertyLikeNumber(mainPin, 'top');
-  var mainPinWidth = mainPin.clientWidth;
-  var mainPinHeight = mainPin.clientHeight;
-  var mainPinPointer = window.utils.getStylePropertyLikeNumber(mainPin, 'height', ':after');
-
-  var pinPositionCenter = (mainPinPosLeft + mainPinWidth / 2) + ', ' + (mainPinPosTop + mainPinHeight + mainPinPointer);
-  var pinPositionPointer = (mainPinPosLeft + mainPinWidth / 2) + ', ' + (mainPinPosTop + mainPinHeight / 2);
   var pinTemplate = document.querySelector('#pin').content;
 
   function renderPin(data, id) {
@@ -27,9 +17,48 @@ window.pin = (function () {
     return clonePin;
   }
 
+  function move(evt) {
+    if (evt.button === 0) {
+      mainPin.addEventListener('mousemove', onMouseMove);
+      mainPin.addEventListener('mouseup', onMouseUp);
+    }
+
+    var startCoords = {
+      x: evt.clientX,
+      y: evt.clientY,
+    }
+
+    function onMouseMove(moveEvt) {
+      moveEvt.preventDefault();
+      var shift = {
+        x: startCoords.x - moveEvt.clientX,
+        y: startCoords.y - moveEvt.clientY
+      }
+
+      startCoords = {
+        x: moveEvt.clientX,
+        y: moveEvt.clientY
+      };
+
+      console.log(startCoords.x, startCoords.y);
+
+      mainPin.style.top = (mainPin.offsetTop - shift.y) + 'px';
+      mainPin.style.left = (mainPin.offsetLeft - shift.x) + 'px';
+
+    }
+
+    function onMouseUp(upEvt) {
+      upEvt.preventDefault();
+
+      mainPin.removeEventListener('mousemove', onMouseMove);
+      mainPin.removeEventListener('mouseup', onMouseUp);
+    }
+  }
+
   return {
-    pinPositionCenter: pinPositionCenter,
-    pinPositionPointer: pinPositionPointer,
+    //pinPositionCenter: pinPositionCenter,
+    //pinPositionPointer: pinPositionPointer,
     renderPin: renderPin,
+    move: move,
   };
 })();
