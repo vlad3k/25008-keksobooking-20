@@ -4,8 +4,22 @@ window.card = (function () {
   var cardTemplate = document.querySelector('#card').content;
   var map = document.querySelector('.map');
   var mapFiltersContainer = map.querySelector('.map__filters-container');
+  var mapPins = map.querySelector('.map__pins');
+
+  function handlePopupEsc(evt) {
+    if (evt.key === 'Escape') {
+      removeCard();
+      document.removeEventListener('keydown', handlePopupEsc);
+    }
+  }
 
   function renderCard(add) {
+    var typeOfHouse = {
+      FLAT: 'Квартира',
+      BUNGALO: 'Бунгало',
+      HOUSE: 'Дом',
+      PALACE: 'Дворец',
+    };
     var photosFragment = document.createDocumentFragment();
     var featuresFragment = document.createDocumentFragment();
     var cloneCard = cardTemplate.cloneNode(true);
@@ -19,6 +33,7 @@ window.card = (function () {
     var avatarElement = cloneCard.querySelector('.popup__avatar');
     var photosElement = cloneCard.querySelector('.popup__photos');
     var featuresElement = cloneCard.querySelector('.popup__features');
+    var iconClose = cloneCard.querySelector('.popup__close');
 
     if (!add || !add.offer) {
       return;
@@ -43,7 +58,7 @@ window.card = (function () {
     }
 
     if (add.offer.type) {
-      typeElement.textContent = window.constants.TYPE_OF_HOUSE[add.offer.type];
+      typeElement.textContent = typeOfHouse[add.offer.type.toUpperCase()];
     } else {
       typeElement.remove();
     }
@@ -100,10 +115,34 @@ window.card = (function () {
       featuresElement.remove();
     }
 
+    iconClose.addEventListener('click', removeCard);
+
+    document.addEventListener('keydown', handlePopupEsc);
+
     map.insertBefore(cloneCard, mapFiltersContainer);
   }
 
-  return {
-    renderCard: renderCard,
-  };
+  function removeCard() {
+    if (map.querySelector('.map__card.popup')) {
+      map.querySelector('.map__card.popup').remove();
+      document.removeEventListener('keydown', handlePopupEsc);
+    }
+  }
+
+  function handleOpenCard(evt) {
+    var btn = evt.target.closest('.map__pin:not(.map__pin--main)');
+    if (btn) {
+      var add = window.main.getAddById(btn.dataset.number);
+      removeCard();
+      renderCard(add);
+    }
+  }
+
+  mapPins.addEventListener('click', handleOpenCard);
+  mapPins.addEventListener('keydown', function (evt) {
+    if (evt.key === 'Enter') {
+      handleOpenCard(evt);
+    }
+  });
+
 })();
