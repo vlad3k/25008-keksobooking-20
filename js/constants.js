@@ -6,6 +6,5 @@ window.constants = (function () {
     PIN_HEIGHT: 70,
     PHOTO_WIDTH: 45,
     PHOTO_HEIGHT: 40,
-    PIN_POINTER_HEIGHT: 22,
   };
 })();

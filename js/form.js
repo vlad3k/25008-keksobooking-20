@@ -15,12 +15,12 @@ window.form = (function () {
   var mapFiltersSelects = mapFilters.querySelectorAll('select');
   var mapFilterFieldsets = mapFilters.querySelectorAll('fieldset');
   var mainPin = mapElement.querySelector('.map__pin--main');
-
+  var mainPinDefaultX = mainPin.offsetLeft;
+  var mainPinDefaultY = mainPin.offsetTop;
   var mainPinWidth = mainPin.clientWidth;
   var mainPinHeight = mainPin.clientHeight;
-  var mainPinPointerHeight = window.utils.getStylePropertyLikeNumber(mainPin, 'height', ':after');
 
-    function setPrice() {
+  function setPrice() {
     var minPrice;
     switch (adType.value) {
       case 'bungalo':
@@ -48,9 +48,7 @@ window.form = (function () {
   }
 
   function setAddress(x, y) {
-    var coordX = x + (mainPinWidth / 2);
-    var coordY = y + mainPinHeight + mainPinPointerHeight;
-    addressField.value = coordX + ', ' + coordY;
+    addressField.value = x + ', ' + y;
   }
 
   function setValidationCapacity() {
@@ -108,14 +106,18 @@ window.form = (function () {
     addressField.value = (mainPin.offsetLeft + mainPinWidth / 2) + ', ' + (mainPin.offsetTop + mainPinHeight / 2);
     setPrice();
     setValidationCapacity();
+    window.card.removeCard();
   }
 
   function handleResetFormPage(evt) {
-    evt.preventDefault();
     window.map.removePins();
     mapElement.classList.add('map--faded');
     mapFilters.reset();
+    adForm.reset();
+    setAddress(mainPinDefaultX, mainPinDefaultY);
     initForm();
+    window.pin.resetMainPinPos();
+    evt.preventDefault();
   }
 
   adForm.addEventListener('submit', function (evt) {
@@ -127,6 +129,7 @@ window.form = (function () {
           window.map.removePins();
           adForm.reset();
           initForm();
+          window.pin.resetMainPinPos();
         },
         window.modal.renderErrorModal);
     evt.preventDefault();
@@ -135,6 +138,7 @@ window.form = (function () {
   adForm.addEventListener('reset', handleResetFormPage);
 
   return {
+    setAddress: setAddress,
     activateForm: activateForm,
     initForm: initForm,
   };

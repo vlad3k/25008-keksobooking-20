@@ -2,6 +2,39 @@
 
 window.pin = (function () {
   var pinTemplate = document.querySelector('#pin').content;
+  var mapElement = document.querySelector('.map');
+  var mainPin = mapElement.querySelector('.map__pin--main');
+  var mapOverlay = mapElement.querySelector('.map__overlay');
+
+  var mainPinWidth = mainPin.clientWidth;
+  var mainPinHeight = mainPin.clientHeight;
+  var mainPinPointerHeight = window.utils.getStylePropertyLikeNumber(mainPin, 'height', ':after');
+  var initialPosMainPointer = {
+    x: mainPin.offsetLeft,
+    y: mainPin.offsetTop
+  };
+  var mainPointerOffsets = {
+    offsetX: mainPinWidth / 2,
+    offsetY: mainPinHeight + mainPinPointerHeight
+  };
+  var areaPointerLimits = {
+    TOP: 130,
+    BOTTOM: 630,
+    LEFT: mainPointerOffsets.offsetX,
+    RIGHT: mapOverlay.offsetWidth - mainPointerOffsets.offsetX,
+  };
+
+  function resetMainPinPos() {
+    mainPin.style.left = initialPosMainPointer.x + 'px';
+    mainPin.style.top = initialPosMainPointer.y + 'px';
+  }
+
+  function getPositionMainPointer(coords) {
+    return {
+      x: coords.x - mainPointerOffsets.offsetX,
+      y: coords.y - mainPointerOffsets.offsetY,
+    };
+  }
 
   function renderPin(data, id) {
     var clonePin = pinTemplate.cloneNode(true);
@@ -18,47 +51,76 @@ window.pin = (function () {
   }
 
   function move(evt) {
+    evt.preventDefault();
     if (evt.button === 0) {
-      mainPin.addEventListener('mousemove', onMouseMove);
-      mainPin.addEventListener('mouseup', onMouseUp);
+      var startCoords = {
+        x: evt.clientX,
+        y: evt.clientY
+      };
     }
 
-    var startCoords = {
-      x: evt.clientX,
-      y: evt.clientY,
-    }
+    var currentPointerCoords = {
+      x: mainPin.offsetLeft + mainPointerOffsets.offsetX,
+      y: mainPin.offsetTop + mainPointerOffsets.offsetY,
+    };
+
+    var positionMainPointer = getPositionMainPointer(currentPointerCoords);
+
+    window.form.setAddress(currentPointerCoords.x, currentPointerCoords.y);
 
     function onMouseMove(moveEvt) {
       moveEvt.preventDefault();
-      var shift = {
-        x: startCoords.x - moveEvt.clientX,
-        y: startCoords.y - moveEvt.clientY
+
+      if (!mapElement.classList.contains('map--faded')) {
+        var shift = {
+          x: startCoords.x - moveEvt.clientX,
+          y: startCoords.y - moveEvt.clientY,
+        };
+
+        startCoords = {
+          x: moveEvt.clientX,
+          y: moveEvt.clientY,
+        };
+
+        currentPointerCoords = {
+          x: mainPin.offsetLeft + mainPointerOffsets.offsetX,
+          y: mainPin.offsetTop + mainPointerOffsets.offsetY,
+        };
+
+        if (currentPointerCoords.y < areaPointerLimits.TOP) {
+          currentPointerCoords.y = areaPointerLimits.TOP;
+        } else if (currentPointerCoords.y > areaPointerLimits.BOTTOM) {
+          currentPointerCoords.y = areaPointerLimits.BOTTOM;
+        } else if (currentPointerCoords.x < areaPointerLimits.LEFT) {
+          currentPointerCoords.x = areaPointerLimits.LEFT;
+        } else if (currentPointerCoords.x > areaPointerLimits.RIGHT) {
+          currentPointerCoords.x = areaPointerLimits.RIGHT;
+        }
+
+        positionMainPointer = getPositionMainPointer(currentPointerCoords);
+
+        mainPin.style.left = (positionMainPointer.x - shift.x) + 'px';
+        mainPin.style.top = (positionMainPointer.y - shift.y) + 'px';
+
+        window.form.setAddress(currentPointerCoords.x, currentPointerCoords.y);
       }
-
-      startCoords = {
-        x: moveEvt.clientX,
-        y: moveEvt.clientY
-      };
-
-      console.log(startCoords.x, startCoords.y);
-
-      mainPin.style.top = (mainPin.offsetTop - shift.y) + 'px';
-      mainPin.style.left = (mainPin.offsetLeft - shift.x) + 'px';
-
     }
 
     function onMouseUp(upEvt) {
       upEvt.preventDefault();
+      window.form.setAddress(currentPointerCoords.x, currentPointerCoords.y);
 
-      mainPin.removeEventListener('mousemove', onMouseMove);
-      mainPin.removeEventListener('mouseup', onMouseUp);
+      document.removeEventListener('mousemove', onMouseMove);
+      document.removeEventListener('mouseup', onMouseUp);
     }
+
+    document.addEventListener('mousemove', onMouseMove);
+    document.addEventListener('mouseup', onMouseUp);
   }
 
   return {
-    //pinPositionCenter: pinPositionCenter,
-    //pinPositionPointer: pinPositionPointer,
     renderPin: renderPin,
+    resetMainPinPos: resetMainPinPos,
     move: move,
   };
 })();

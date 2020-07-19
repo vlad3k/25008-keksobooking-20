@@ -21,6 +21,7 @@ window.main = (function () {
         mapPins.appendChild(pinsFragment);
       });
     }
+    window.pin.move(evt);
   }
 
   function loadPage() {
