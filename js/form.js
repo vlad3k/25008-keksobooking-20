@@ -48,7 +48,7 @@ window.form = (function () {
   }
 
   function setAddress(x, y) {
-    addressField.value = x + ', ' + y;
+    addressField.value = Math.round(x) + ', ' + Math.round(y);
   }
 
   function setValidationCapacity() {
@@ -88,7 +88,6 @@ window.form = (function () {
     enableControls(mapFilterFieldsets);
     adForm.classList.remove('ad-form--disabled');
     mapFilters.classList.remove('map__filters--disabled');
-    setAddress(mainPin.offsetLeft, mainPin.offsetTop);
     setValidationCapacity();
   }
 
@@ -103,7 +102,7 @@ window.form = (function () {
     adCapacity.addEventListener('change', setValidationCapacity);
     adForm.classList.add('ad-form--disabled');
     addressField.setAttribute('readonly', 'true');
-    addressField.value = (mainPin.offsetLeft + mainPinWidth / 2) + ', ' + (mainPin.offsetTop + mainPinHeight / 2);
+    setAddress(mainPin.offsetLeft + mainPinWidth / 2, mainPin.offsetTop + mainPinHeight / 2);
     setPrice();
     setValidationCapacity();
     window.card.removeCard();

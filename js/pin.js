@@ -20,8 +20,8 @@ window.pin = (function () {
   var areaPointerLimits = {
     TOP: 130,
     BOTTOM: 630,
-    LEFT: mainPointerOffsets.offsetX,
-    RIGHT: mapOverlay.offsetWidth - mainPointerOffsets.offsetX,
+    left: 0,
+    right: mapOverlay.offsetWidth
   };
 
   function resetMainPinPos() {
@@ -89,12 +89,16 @@ window.pin = (function () {
 
         if (currentPointerCoords.y < areaPointerLimits.TOP) {
           currentPointerCoords.y = areaPointerLimits.TOP;
-        } else if (currentPointerCoords.y > areaPointerLimits.BOTTOM) {
+        }
+        if (currentPointerCoords.y > areaPointerLimits.BOTTOM) {
           currentPointerCoords.y = areaPointerLimits.BOTTOM;
-        } else if (currentPointerCoords.x < areaPointerLimits.LEFT) {
-          currentPointerCoords.x = areaPointerLimits.LEFT;
-        } else if (currentPointerCoords.x > areaPointerLimits.RIGHT) {
-          currentPointerCoords.x = areaPointerLimits.RIGHT;
+        }
+
+        if (currentPointerCoords.x < areaPointerLimits.left) {
+          currentPointerCoords.x = areaPointerLimits.left;
+        }
+        if (currentPointerCoords.x > areaPointerLimits.right) {
+          currentPointerCoords.x = areaPointerLimits.right;
         }
 
         positionMainPointer = getPositionMainPointer(currentPointerCoords);
