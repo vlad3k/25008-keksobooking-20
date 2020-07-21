@@ -145,4 +145,8 @@ window.card = (function () {
     }
   });
 
+  return {
+    removeCard: removeCard,
+  };
+
 })();

@@ -14,6 +14,11 @@ window.form = (function () {
   var mapFilters = mapElement.querySelector('.map__filters');
   var mapFiltersSelects = mapFilters.querySelectorAll('select');
   var mapFilterFieldsets = mapFilters.querySelectorAll('fieldset');
+  var mainPin = mapElement.querySelector('.map__pin--main');
+  var mainPinDefaultX = mainPin.offsetLeft;
+  var mainPinDefaultY = mainPin.offsetTop;
+  var mainPinWidth = mainPin.clientWidth;
+  var mainPinHeight = mainPin.clientHeight;
 
   function setPrice() {
     var minPrice;
@@ -40,6 +45,10 @@ window.form = (function () {
 
   function setTimeOut() {
     adTimeOut.value = adTimeIn.value;
+  }
+
+  function setAddress(x, y) {
+    addressField.value = Math.round(x) + ', ' + Math.round(y);
   }
 
   function setValidationCapacity() {
@@ -79,7 +88,6 @@ window.form = (function () {
     enableControls(mapFilterFieldsets);
     adForm.classList.remove('ad-form--disabled');
     mapFilters.classList.remove('map__filters--disabled');
-    addressField.value = window.pin.pinPositionCenter;
     setValidationCapacity();
   }
 
@@ -94,30 +102,33 @@ window.form = (function () {
     adCapacity.addEventListener('change', setValidationCapacity);
     adForm.classList.add('ad-form--disabled');
     addressField.setAttribute('readonly', 'true');
-    addressField.value = window.pin.pinPositionPointer;
+    setAddress(mainPin.offsetLeft + mainPinWidth / 2, mainPin.offsetTop + mainPinHeight / 2);
     setPrice();
     setValidationCapacity();
+    window.card.removeCard();
   }
 
   function handleResetFormPage(evt) {
-    evt.preventDefault();
     window.map.removePins();
     mapElement.classList.add('map--faded');
     mapFilters.reset();
+    adForm.reset();
+    setAddress(mainPinDefaultX, mainPinDefaultY);
     initForm();
+    window.pin.resetMainPinPos();
+    evt.preventDefault();
   }
-
 
   adForm.addEventListener('submit', function (evt) {
     window.load.sendData(
         new FormData(adForm),
         function () {
           mapElement.classList.add('map--faded');
-
           window.modal.renderSuccessModal();
           window.map.removePins();
           adForm.reset();
           initForm();
+          window.pin.resetMainPinPos();
         },
         window.modal.renderErrorModal);
     evt.preventDefault();
@@ -126,6 +137,7 @@ window.form = (function () {
   adForm.addEventListener('reset', handleResetFormPage);
 
   return {
+    setAddress: setAddress,
     activateForm: activateForm,
     initForm: initForm,
   };
