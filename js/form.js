@@ -86,6 +86,7 @@ window.form = (function () {
     enableControls(adFormFieldsets);
     enableControls(mapFiltersSelects);
     enableControls(mapFilterFieldsets);
+    window.filters.activateFilters();
     adForm.classList.remove('ad-form--disabled');
     mapFilters.classList.remove('map__filters--disabled');
     setValidationCapacity();

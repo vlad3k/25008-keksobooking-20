@@ -10,12 +10,16 @@ window.main = (function () {
     return adverts[id];
   }
 
+  function getAdverts() {
+    return adverts;
+  }
+
   function activatePage(evt) {
     if ((evt.button === 0 || evt.key === 'Enter') && mapElement.classList.contains('map--faded')) {
       evt.preventDefault();
       window.form.activateForm();
       window.load.getData(function (ads) {
-        adverts = ads;
+        adverts = ads.slice(0, 6);
         var pinsFragment = window.map.renderPins(adverts);
         mapElement.classList.remove('map--faded');
         mapPins.appendChild(pinsFragment);
@@ -34,6 +38,7 @@ window.main = (function () {
   loadPage();
 
   return {
+    getAdverts: getAdverts,
     getAddById: getAddById
   };
 })();
