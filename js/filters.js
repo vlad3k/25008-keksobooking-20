@@ -6,25 +6,38 @@ window.filters = (function () {
 
   var filteredAds = [];
 
+  function getAdById(id) {
+    return filteredAds[id];
+  }
+
   function activateFilters() {
+    filteredAds = window.main.getAdverts();
+    mapFilters.addEventListener('change', handleChangeFilter);
+  }
+  function handleChangeFilter(evt) {
+    var filterName = evt.target.value;
+    var filterProp = evt.target.id.replace('housing-', '');
+    filterData(filterName, filterProp);
+    renderFilteredAds(filteredAds);
+  }
 
-    mapFilters.addEventListener('change', function (evt) {
-      var filterName = evt.target.value;
-      var filterProp = evt.target.id.replace('housing-', '');
-      filteredAds = window.main.getAdverts().filter(function (ad) {
-        if (filterName === 'any') {
-          return true;
-        }
-        return ad.offer[filterProp] === filterName;
-      });
-
-      window.card.removeCard();
-      window.map.removePins();
-      mapPins.appendChild(window.map.renderPins(filteredAds));
+  function filterData(name, prop) {
+    filteredAds = window.main.getAdverts().filter(function (ad) {
+      return name === 'any' ? true : ad.offer[prop] === name;
     });
+  }
+
+  function renderFilteredAds() {
+    window.card.removeCard();
+    window.map.removePins();
+    var readyData = filteredAds.slice(0, window.constants.DATA_SIZE + 1);
+    var readyAds = window.map.renderPins(readyData);
+    mapPins.appendChild(readyAds);
   }
 
   return {
     activateFilters: activateFilters,
+    renderFilteredAds: renderFilteredAds,
+    getAdById: getAdById,
   };
 })();

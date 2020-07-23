@@ -132,7 +132,7 @@ window.card = (function () {
   function handleOpenCard(evt) {
     var btn = evt.target.closest('.map__pin:not(.map__pin--main)');
     if (btn) {
-      var add = window.main.getAddById(btn.dataset.number);
+      var add = window.filters.getAdById(btn.dataset.number);
       removeCard();
       renderCard(add);
     }
