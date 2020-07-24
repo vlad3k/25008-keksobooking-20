@@ -108,15 +108,13 @@ window.form = (function () {
     window.card.removeCard();
   }
 
-  function handleResetFormPage(evt) {
+  function handleResetFormPage() {
     window.map.removePins();
     mapElement.classList.add('map--faded');
     mapFilters.reset();
-    adForm.reset();
     setAddress(mainPinDefaultX, mainPinDefaultY);
     initForm();
     window.pin.resetMainPinPos();
-    evt.preventDefault();
   }
 
   adForm.addEventListener('submit', function (evt) {
