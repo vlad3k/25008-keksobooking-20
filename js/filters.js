@@ -1,6 +1,8 @@
 'use strict';
 
 window.filters = (function () {
+  var LOW_PRICE = 10000;
+  var HIGH_PRICE = 50000;
   var mapPins = document.querySelector('.map__pins');
   var mapFilters = document.querySelector('.map__filters');
 
@@ -14,17 +16,36 @@ window.filters = (function () {
     filteredAds = window.main.getAdverts();
     mapFilters.addEventListener('change', handleChangeFilter);
   }
-  function handleChangeFilter(evt) {
-    var filterName = evt.target.value;
-    var filterProp = evt.target.id.replace('housing-', '');
-    filterData(filterName, filterProp);
-    renderFilteredAds(filteredAds);
+
+  function getTypeOfPrice(price) {
+    if (price < LOW_PRICE) {
+      return 'low';
+    } else if (price >= LOW_PRICE && price < HIGH_PRICE) {
+      return 'middle';
+    } else {
+      return 'high';
+    }
   }
 
-  function filterData(name, prop) {
+  function handleChangeFilter() {
+    var housingType = mapFilters['housing-type'].value;
+    var housingPrice = mapFilters['housing-price'].value;
+    var housingRooms = mapFilters['housing-rooms'].value;
+    var housingGuests = mapFilters['housing-guests'].value;
+    var features = Array.from(mapFilters.querySelectorAll('input[type="checkbox"]:checked'));
+
     filteredAds = window.main.getAdverts().filter(function (ad) {
-      return name === 'any' ? true : ad.offer[prop] === name;
+      return (
+        (housingType === 'any' ? true : housingType === ad.offer.type) &&
+        (housingRooms === 'any' ? true : +housingRooms === ad.offer.rooms) &&
+        (housingGuests === 'any' ? true : +housingGuests === ad.offer.guests) &&
+        (housingPrice === 'any' ? true : housingPrice === getTypeOfPrice(ad.offer.price)) &&
+        (features.every(function (feature) {
+          return ad.offer.features.includes(feature.value);
+        }))
+      );
     });
+    renderFilteredAds();
   }
 
   function renderFilteredAds() {
