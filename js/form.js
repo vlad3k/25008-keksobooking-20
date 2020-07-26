@@ -30,7 +30,7 @@ window.form = (function () {
         minPrice = 5000;
         break;
       case 'palace':
-        minPrice = 10000;
+        minPrice = window.constants.LOW_PRICE;
         break;
       default:
         minPrice = 1000;

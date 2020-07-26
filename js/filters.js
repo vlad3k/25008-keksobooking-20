@@ -1,8 +1,6 @@
 'use strict';
 
 window.filters = (function () {
-  var LOW_PRICE = 10000;
-  var HIGH_PRICE = 50000;
   var mapPins = document.querySelector('.map__pins');
   var mapFilters = document.querySelector('.map__filters');
 
@@ -14,17 +12,16 @@ window.filters = (function () {
 
   function activateFilters() {
     filteredAds = window.main.getAdverts();
-    mapFilters.addEventListener('change', handleChangeFilter);
+    mapFilters.addEventListener('change', window.debounce.debounce(handleChangeFilter));
   }
 
   function getTypeOfPrice(price) {
-    if (price < LOW_PRICE) {
+    if (price < window.constants.LOW_PRICE) {
       return 'low';
-    } else if (price >= LOW_PRICE && price < HIGH_PRICE) {
+    } else if (price >= window.constants.LOW_PRICE && price < window.constants.HIGH_PRICE) {
       return 'middle';
-    } else {
-      return 'high';
     }
+    return 'high';
   }
 
   function handleChangeFilter() {
