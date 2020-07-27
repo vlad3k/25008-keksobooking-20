@@ -13,9 +13,9 @@
 
   function removePins() {
     var mapPins = document.querySelectorAll('.map__pin:not(.map__pin--main)');
-    for (var j = 0; j < mapPins.length; j++) {
-      mapPins[j].remove();
-    }
+    mapPins.forEach(function (pin) {
+      pin.remove();
+    });
   }
 
   window.map = {

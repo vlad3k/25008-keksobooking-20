@@ -15,5 +15,5 @@
         cb.apply(null, parameters);
       }, DEBOUNCE_INTERVAL);
     };
-  }
+  };
 })();

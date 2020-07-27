@@ -71,15 +71,15 @@
   }
 
   function enableControls(elements) {
-    for (var i = 0; i < elements.length; i++) {
-      elements[i].disabled = false;
-    }
+    elements.forEach(function (el) {
+      el.disabled = false;
+    });
   }
 
   function disableControls(elements) {
-    for (var i = 0; i < elements.length; i++) {
-      elements[i].disabled = true;
-    }
+    elements.forEach(function (el) {
+      el.disabled = true;
+    });
   }
 
   function activate() {
