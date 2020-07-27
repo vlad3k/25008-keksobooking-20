@@ -1,6 +1,12 @@
 'use strict';
 
 (function () {
+  var PRICE_LIMITATIONS = {
+    bungalo: 0,
+    flat: 1000,
+    house: 5000,
+    palace: 10000
+  };
   var mapElement = document.querySelector('.map');
   var adForm = document.querySelector('.ad-form');
   var adType = adForm.querySelector('[name="type"]');
@@ -21,22 +27,8 @@
   var mainPinHeight = mainPin.clientHeight;
 
   function setPrice() {
-    var minPrice;
-    switch (adType.value) {
-      case 'bungalo':
-        minPrice = 0;
-        break;
-      case 'house':
-        minPrice = 5000;
-        break;
-      case 'palace':
-        minPrice = window.constants.LOW_PRICE;
-        break;
-      default:
-        minPrice = 1000;
-    }
-    adPrice.min = minPrice;
-    adPrice.placeholder = minPrice;
+    adPrice.min = PRICE_LIMITATIONS[adType.value];
+    adPrice.placeholder = PRICE_LIMITATIONS[adType.value];
   }
 
   function setTimeIn() {
