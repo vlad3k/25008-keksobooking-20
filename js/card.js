@@ -131,10 +131,23 @@ window.card = (function () {
 
   function handleOpenCard(evt) {
     var btn = evt.target.closest('.map__pin:not(.map__pin--main)');
+    deactivePins();
+
     if (btn) {
+      btn.classList.add('map__pin--active');
       var add = window.filters.getAdById(btn.dataset.number);
       removeCard();
       renderCard(add);
+    }
+  }
+
+  function deactivePins() {
+    var activePins = mapPins.querySelectorAll('.map__pin--active');
+    if (activePins) {
+      activePins.forEach(function (el) {
+        console.log(el);
+        el.classList.remove('map__pin--active');
+      })
     }
   }
 

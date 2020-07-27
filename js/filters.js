@@ -48,7 +48,7 @@ window.filters = (function () {
   function renderFilteredAds() {
     window.card.removeCard();
     window.map.removePins();
-    var readyData = filteredAds.slice(0, window.constants.DATA_SIZE + 1);
+    var readyData = filteredAds.slice(0, window.constants.DATA_SIZE);
     var readyAds = window.map.renderPins(readyData);
     mapPins.appendChild(readyAds);
   }
