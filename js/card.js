@@ -7,7 +7,7 @@
   var mapPins = map.querySelector('.map__pins');
 
   function handlePopupEsc(evt) {
-    if (evt.key === 'Escape') {
+    if (evt.key === window.constants.KEY_ESC) {
       remove();
       document.removeEventListener('keydown', handlePopupEsc);
     }
@@ -152,7 +152,7 @@
 
   mapPins.addEventListener('click', handleOpenCard);
   mapPins.addEventListener('keydown', function (evt) {
-    if (evt.key === 'Enter') {
+    if (evt.key === window.constants.KEY_ENTER) {
       handleOpenCard(evt);
     }
   });

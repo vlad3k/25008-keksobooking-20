@@ -52,21 +52,24 @@
 
   function move(evt) {
     evt.preventDefault();
-    if (evt.button === 0) {
+    if (evt.button === window.constants.MOUSE_LEFT_BUTTON) {
       var startCoords = {
         x: evt.clientX,
         y: evt.clientY
       };
+
+
+      var currentPointerCoords = {
+        x: mainPin.offsetLeft + mainPointerOffsets.offsetX,
+        y: mainPin.offsetTop + mainPointerOffsets.offsetY,
+      };
+
+      var positionMainPointer = getPositionMainPointer(currentPointerCoords);
+
+      window.form.setAddress(currentPointerCoords.x, currentPointerCoords.y);
+      document.addEventListener('mousemove', onMouseMove);
+      document.addEventListener('mouseup', onMouseUp);
     }
-
-    var currentPointerCoords = {
-      x: mainPin.offsetLeft + mainPointerOffsets.offsetX,
-      y: mainPin.offsetTop + mainPointerOffsets.offsetY,
-    };
-
-    var positionMainPointer = getPositionMainPointer(currentPointerCoords);
-
-    window.form.setAddress(currentPointerCoords.x, currentPointerCoords.y);
 
     function onMouseMove(moveEvt) {
       moveEvt.preventDefault();
@@ -117,9 +120,6 @@
       document.removeEventListener('mousemove', onMouseMove);
       document.removeEventListener('mouseup', onMouseUp);
     }
-
-    document.addEventListener('mousemove', onMouseMove);
-    document.addEventListener('mouseup', onMouseUp);
   }
 
   window.pin = {

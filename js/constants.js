@@ -9,5 +9,8 @@
     DATA_SIZE: 5,
     LOW_PRICE: 10000,
     HIGH_PRICE: 50000,
+    MOUSE_LEFT_BUTTON: 0,
+    KEY_ESC: 'Escape',
+    KEY_ENTER: 'Enter',
   };
 })();

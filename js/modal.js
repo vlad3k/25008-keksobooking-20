@@ -4,7 +4,7 @@
   var main = document.querySelector('main');
 
   function handleEsc(el, evt) {
-    if (evt.key === 'Escape') {
+    if (evt.key === window.constants.KEY_ESC) {
       el.remove();
       el.removeEventListener('keydown', handleEsc);
     }

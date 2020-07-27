@@ -10,7 +10,9 @@
   }
 
   function activatePage(evt) {
-    if ((evt.button === 0 || evt.key === 'Enter') && mapElement.classList.contains('map--faded')) {
+    if ((evt.button === window.constants.MOUSE_LEFT_BUTTON ||
+         evt.key === window.constants.KEY_ENTER) &&
+         mapElement.classList.contains('map--faded')) {
       evt.preventDefault();
       window.form.activate();
       window.load.getData(function (ads) {
