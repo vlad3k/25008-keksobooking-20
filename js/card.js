@@ -15,10 +15,10 @@ window.card = (function () {
 
   function renderCard(add) {
     var typeOfHouse = {
-      FLAT: 'Квартира',
-      BUNGALO: 'Бунгало',
-      HOUSE: 'Дом',
-      PALACE: 'Дворец',
+      flat: 'Квартира',
+      bungalo: 'Бунгало',
+      house: 'Дом',
+      palace: 'Дворец',
     };
     var photosFragment = document.createDocumentFragment();
     var featuresFragment = document.createDocumentFragment();
@@ -58,7 +58,7 @@ window.card = (function () {
     }
 
     if (add.offer.type) {
-      typeElement.textContent = typeOfHouse[add.offer.type.toUpperCase()];
+      typeElement.textContent = typeOfHouse[add.offer.type];
     } else {
       typeElement.remove();
     }
