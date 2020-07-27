@@ -1,7 +1,7 @@
 'use strict';
 
-window.constants = (function () {
-  return {
+(function () {
+  window.constants = {
     PIN_WIDTH: 50,
     PIN_HEIGHT: 70,
     PHOTO_WIDTH: 45,

@@ -1,6 +1,6 @@
 'use strict';
 
-window.card = (function () {
+(function () {
   var cardTemplate = document.querySelector('#card').content;
   var map = document.querySelector('.map');
   var mapFiltersContainer = map.querySelector('.map__filters-container');
@@ -8,7 +8,7 @@ window.card = (function () {
 
   function handlePopupEsc(evt) {
     if (evt.key === 'Escape') {
-      removeCard();
+      remove();
       document.removeEventListener('keydown', handlePopupEsc);
     }
   }
@@ -115,14 +115,14 @@ window.card = (function () {
       featuresElement.remove();
     }
 
-    iconClose.addEventListener('click', removeCard);
+    iconClose.addEventListener('click', remove);
 
     document.addEventListener('keydown', handlePopupEsc);
 
     map.insertBefore(cloneCard, mapFiltersContainer);
   }
 
-  function removeCard() {
+  function remove() {
     if (map.querySelector('.map__card.popup')) {
       map.querySelector('.map__card.popup').remove();
       document.removeEventListener('keydown', handlePopupEsc);
@@ -136,7 +136,7 @@ window.card = (function () {
     if (btn) {
       btn.classList.add('map__pin--active');
       var add = window.filters.getAdById(btn.dataset.number);
-      removeCard();
+      remove();
       renderCard(add);
     }
   }
@@ -145,9 +145,8 @@ window.card = (function () {
     var activePins = mapPins.querySelectorAll('.map__pin--active');
     if (activePins) {
       activePins.forEach(function (el) {
-        console.log(el);
         el.classList.remove('map__pin--active');
-      })
+      });
     }
   }
 
@@ -158,8 +157,8 @@ window.card = (function () {
     }
   });
 
-  return {
-    removeCard: removeCard,
+  window.card = {
+    remove: remove,
   };
 
 })();

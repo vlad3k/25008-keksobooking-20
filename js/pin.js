@@ -1,6 +1,6 @@
 'use strict';
 
-window.pin = (function () {
+(function () {
   var pinTemplate = document.querySelector('#pin').content;
   var mapElement = document.querySelector('.map');
   var mainPin = mapElement.querySelector('.map__pin--main');
@@ -36,7 +36,7 @@ window.pin = (function () {
     };
   }
 
-  function renderPin(data, id) {
+  function render(data, id) {
     var clonePin = pinTemplate.cloneNode(true);
     var pinElement = clonePin.querySelector('.map__pin');
     var avatarElement = clonePin.querySelector('img');
@@ -122,8 +122,8 @@ window.pin = (function () {
     document.addEventListener('mouseup', onMouseUp);
   }
 
-  return {
-    renderPin: renderPin,
+  window.pin = {
+    render: render,
     resetMainPinPos: resetMainPinPos,
     move: move,
   };

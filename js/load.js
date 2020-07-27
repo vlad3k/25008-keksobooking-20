@@ -1,6 +1,6 @@
 'use strict';
 
-window.load = (function () {
+(function () {
   var StatusCode = {
     OK: 200
   };
@@ -48,7 +48,7 @@ window.load = (function () {
     xhr.send(data);
   }
 
-  return {
+  window.load = {
     getData: getData,
     sendData: sendData,
   };

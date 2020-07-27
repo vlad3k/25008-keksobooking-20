@@ -1,6 +1,6 @@
 'use strict';
 
-window.filters = (function () {
+(function () {
   var mapPins = document.querySelector('.map__pins');
   var mapFilters = document.querySelector('.map__filters');
 
@@ -10,9 +10,9 @@ window.filters = (function () {
     return filteredAds[id];
   }
 
-  function activateFilters() {
-    filteredAds = window.main.getAdverts();
-    mapFilters.addEventListener('change', window.debounce.debounce(handleChangeFilter));
+  function activate() {
+    filteredAds = window.getAdverts();
+    mapFilters.addEventListener('change', window.debounce(handleChangeFilter));
   }
 
   function getTypeOfPrice(price) {
@@ -31,7 +31,7 @@ window.filters = (function () {
     var housingGuests = mapFilters['housing-guests'].value;
     var features = Array.from(mapFilters.querySelectorAll('input[type="checkbox"]:checked'));
 
-    filteredAds = window.main.getAdverts().filter(function (ad) {
+    filteredAds = window.getAdverts().filter(function (ad) {
       return (
         (housingType === 'any' ? true : housingType === ad.offer.type) &&
         (housingRooms === 'any' ? true : +housingRooms === ad.offer.rooms) &&
@@ -42,20 +42,20 @@ window.filters = (function () {
         }))
       );
     });
-    renderFilteredAds();
+    renderAds();
   }
 
-  function renderFilteredAds() {
-    window.card.removeCard();
+  function renderAds() {
+    window.card.remove();
     window.map.removePins();
     var readyData = filteredAds.slice(0, window.constants.DATA_SIZE);
     var readyAds = window.map.renderPins(readyData);
     mapPins.appendChild(readyAds);
   }
 
-  return {
-    activateFilters: activateFilters,
-    renderFilteredAds: renderFilteredAds,
+  window.filters = {
+    activate: activate,
+    renderAds: renderAds,
     getAdById: getAdById,
   };
 })();

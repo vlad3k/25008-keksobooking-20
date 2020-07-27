@@ -1,6 +1,6 @@
 'use strict';
 
-window.main = (function () {
+(function () {
   var mapElement = document.querySelector('.map');
   var mainPin = mapElement.querySelector('.map__pin--main');
   var adverts = null;
@@ -12,12 +12,12 @@ window.main = (function () {
   function activatePage(evt) {
     if ((evt.button === 0 || evt.key === 'Enter') && mapElement.classList.contains('map--faded')) {
       evt.preventDefault();
-      window.form.activateForm();
+      window.form.activate();
       window.load.getData(function (ads) {
         adverts = ads;
         mapElement.classList.remove('map--faded');
-        window.filters.activateFilters();
-        window.filters.renderFilteredAds();
+        window.filters.activate();
+        window.filters.renderAds();
       });
     }
     window.pin.move(evt);
@@ -27,12 +27,10 @@ window.main = (function () {
     mainPin.addEventListener('mousedown', activatePage);
     mainPin.addEventListener('keydown', activatePage);
     mapElement.classList.add('map--faded');
-    window.form.initForm();
+    window.form.init();
   }
 
   loadPage();
 
-  return {
-    getAdverts: getAdverts,
-  };
+  window.getAdverts = getAdverts;
 })();

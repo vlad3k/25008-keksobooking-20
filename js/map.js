@@ -1,11 +1,10 @@
 'use strict';
 
-window.map = (function () {
-
+(function () {
   function renderPins(offers) {
     var fragment = document.createDocumentFragment();
     for (var i = 0; i < offers.length; i++) {
-      var pin = window.pin.renderPin(offers[i], i);
+      var pin = window.pin.render(offers[i], i);
       fragment.appendChild(pin);
     }
 
@@ -19,7 +18,7 @@ window.map = (function () {
     }
   }
 
-  return {
+  window.map = {
     renderPins: renderPins,
     removePins: removePins,
   };

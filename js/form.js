@@ -1,6 +1,6 @@
 'use strict';
 
-window.form = (function () {
+(function () {
   var mapElement = document.querySelector('.map');
   var adForm = document.querySelector('.ad-form');
   var adType = adForm.querySelector('[name="type"]');
@@ -82,7 +82,7 @@ window.form = (function () {
     }
   }
 
-  function activateForm() {
+  function activate() {
     enableControls(adFormFieldsets);
     enableControls(mapFiltersSelects);
     enableControls(mapFilterFieldsets);
@@ -91,7 +91,7 @@ window.form = (function () {
     setValidationCapacity();
   }
 
-  function initForm() {
+  function init() {
     disableControls(adFormFieldsets);
     disableControls(mapFiltersSelects);
     disableControls(mapFilterFieldsets);
@@ -105,7 +105,7 @@ window.form = (function () {
     setAddress(mainPin.offsetLeft + mainPinWidth / 2, mainPin.offsetTop + mainPinHeight / 2);
     setPrice();
     setValidationCapacity();
-    window.card.removeCard();
+    window.card.remove();
   }
 
   function handleResetFormPage() {
@@ -113,7 +113,7 @@ window.form = (function () {
     mapElement.classList.add('map--faded');
     mapFilters.reset();
     setAddress(mainPinDefaultX, mainPinDefaultY);
-    initForm();
+    init();
     window.pin.resetMainPinPos();
   }
 
@@ -122,21 +122,21 @@ window.form = (function () {
         new FormData(adForm),
         function () {
           mapElement.classList.add('map--faded');
-          window.modal.renderSuccessModal();
+          window.modal.renderSuccess();
           window.map.removePins();
           adForm.reset();
-          initForm();
+          init();
           window.pin.resetMainPinPos();
         },
-        window.modal.renderErrorModal);
+        window.modal.renderError);
     evt.preventDefault();
   });
 
   adForm.addEventListener('reset', handleResetFormPage);
 
-  return {
+  window.form = {
     setAddress: setAddress,
-    activateForm: activateForm,
-    initForm: initForm,
+    activate: activate,
+    init: init,
   };
 })();

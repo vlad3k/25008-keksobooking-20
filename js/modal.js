@@ -1,6 +1,6 @@
 'use strict';
 
-window.modal = (function () {
+(function () {
   var main = document.querySelector('main');
 
   function handleEsc(el, evt) {
@@ -10,7 +10,7 @@ window.modal = (function () {
     }
   }
 
-  function renderSuccessModal() {
+  function renderSuccess() {
     var successModalClone = document.querySelector('#success')
       .content
       .querySelector('.success')
@@ -28,7 +28,7 @@ window.modal = (function () {
     main.appendChild(successModalClone);
   }
 
-  function renderErrorModal() {
+  function renderError() {
     var errorModalClone = document.querySelector('#error')
       .content
       .querySelector('.error')
@@ -51,8 +51,8 @@ window.modal = (function () {
     main.appendChild(errorModalClone);
   }
 
-  return {
-    renderSuccessModal: renderSuccessModal,
-    renderErrorModal: renderErrorModal,
+  window.modal = {
+    renderSuccess: renderSuccess,
+    renderError: renderError,
   };
 })();
