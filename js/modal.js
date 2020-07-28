@@ -3,27 +3,27 @@
 (function () {
   var main = document.querySelector('main');
 
-  function handleEsc(el, evt) {
-    if (evt.key === window.constants.KEY_ESC) {
-      el.remove();
-      el.removeEventListener('keydown', handleEsc);
-    }
-  }
-
   function renderSuccess() {
     var successModalClone = document.querySelector('#success')
       .content
       .querySelector('.success')
       .cloneNode(true);
-    var handleSuccessEsc = handleEsc.bind(null, successModalClone);
+
+    function onSuccessModalEsc(evt) {
+      if (evt.key === window.constants.KEY_ESC) {
+        successModalClone.remove();
+        document.removeEventListener('keydown', onSuccessModalEsc);
+      }
+    }
 
     successModalClone.addEventListener('click', function (evt) {
       if (evt.target && evt.target.matches('.success')) {
         successModalClone.remove();
+        document.removeEventListener('keydown', onSuccessModalEsc);
       }
     });
 
-    document.addEventListener('keydown', handleSuccessEsc);
+    document.addEventListener('keydown', onSuccessModalEsc);
 
     main.appendChild(successModalClone);
   }
@@ -34,10 +34,17 @@
       .querySelector('.error')
       .cloneNode(true);
     var errorButton = errorModalClone.querySelector('.error__button');
-    var handleErrorEsc = handleEsc.bind(null, errorModalClone);
+
+    function onErrorModalEsc(evt) {
+      if (evt.key === window.constants.KEY_ESC) {
+        errorModalClone.remove();
+        document.removeEventListener('keydown', onErrorModalEsc);
+      }
+    }
 
     errorButton.addEventListener('click', function () {
       errorModalClone.remove();
+      document.removeEventListener('keydown', onErrorModalEsc);
     });
 
     errorModalClone.addEventListener('click', function (evt) {
@@ -46,7 +53,7 @@
       }
     });
 
-    document.addEventListener('keydown', handleErrorEsc);
+    document.addEventListener('keydown', onErrorModalEsc);
 
     main.appendChild(errorModalClone);
   }
