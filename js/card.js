@@ -6,10 +6,10 @@
   var mapFiltersContainer = map.querySelector('.map__filters-container');
   var mapPins = map.querySelector('.map__pins');
 
-  function handlePopupEsc(evt) {
+  function onPopupEsc(evt) {
     if (evt.key === window.constants.KEY_ESC) {
-      remove();
-      document.removeEventListener('keydown', handlePopupEsc);
+      removeCard();
+      document.removeEventListener('keydown', onPopupEsc);
     }
   }
 
@@ -115,28 +115,32 @@
       featuresElement.remove();
     }
 
-    iconClose.addEventListener('click', remove);
+    iconClose.addEventListener('click', onIconCloseClick);
 
-    document.addEventListener('keydown', handlePopupEsc);
+    document.addEventListener('keydown', onPopupEsc);
 
     map.insertBefore(cloneCard, mapFiltersContainer);
   }
 
-  function remove() {
+  function removeCard() {
     if (map.querySelector('.map__card.popup')) {
       map.querySelector('.map__card.popup').remove();
-      document.removeEventListener('keydown', handlePopupEsc);
+      document.removeEventListener('keydown', onPopupEsc);
     }
   }
 
-  function handleOpenCard(evt) {
+  function onIconCloseClick() {
+    removeCard();
+  }
+
+  function onPinClick(evt) {
     var btn = evt.target.closest('.map__pin:not(.map__pin--main)');
     deactivePins();
 
     if (btn) {
       btn.classList.add('map__pin--active');
       var add = window.filters.getAdById(btn.dataset.number);
-      remove();
+      removeCard();
       renderCard(add);
     }
   }
@@ -150,15 +154,15 @@
     }
   }
 
-  mapPins.addEventListener('click', handleOpenCard);
+  mapPins.addEventListener('click', onPinClick);
   mapPins.addEventListener('keydown', function (evt) {
     if (evt.key === window.constants.KEY_ENTER) {
-      handleOpenCard(evt);
+      onPinClick(evt);
     }
   });
 
   window.card = {
-    remove: remove,
+    remove: removeCard,
   };
 
 })();

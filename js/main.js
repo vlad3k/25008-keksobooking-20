@@ -9,7 +9,7 @@
     return adverts;
   }
 
-  function activatePage(evt) {
+  function onPageActivate(evt) {
     if ((evt.button === window.constants.MOUSE_LEFT_BUTTON ||
          evt.key === window.constants.KEY_ENTER) &&
          mapElement.classList.contains('map--faded')) {
@@ -26,8 +26,8 @@
   }
 
   function loadPage() {
-    mainPin.addEventListener('mousedown', activatePage);
-    mainPin.addEventListener('keydown', activatePage);
+    mainPin.addEventListener('mousedown', onPageActivate);
+    mainPin.addEventListener('keydown', onPageActivate);
     mapElement.classList.add('map--faded');
     window.form.init();
   }

@@ -12,7 +12,7 @@
 
   function activate() {
     filteredAds = window.getAdverts();
-    mapFilters.addEventListener('change', window.debounce(handleChangeFilter));
+    mapFilters.addEventListener('change', window.debounce(onFilterChange));
   }
 
   function getTypeOfPrice(price) {
@@ -24,7 +24,7 @@
     return 'high';
   }
 
-  function handleChangeFilter() {
+  function onFilterChange() {
     var housingType = mapFilters['housing-type'].value;
     var housingPrice = mapFilters['housing-price'].value;
     var housingRooms = mapFilters['housing-rooms'].value;

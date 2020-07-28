@@ -31,12 +31,20 @@
     adPrice.placeholder = PRICE_LIMITATIONS[adType.value];
   }
 
-  function setTimeIn() {
+  function onSetPrice() {
+    setPrice();
+  }
+
+  function onTimeInChange() {
     adTimeIn.value = adTimeOut.value;
   }
 
-  function setTimeOut() {
+  function onTimeOutChange() {
     adTimeOut.value = adTimeIn.value;
+  }
+
+  function onValidationCapacityChange() {
+    setValidationCapacity();
   }
 
   function setAddress(x, y) {
@@ -74,7 +82,8 @@
     });
   }
 
-  function activate() {
+
+  function activateForm() {
     enableControls(adFormFieldsets);
     enableControls(mapFiltersSelects);
     enableControls(mapFilterFieldsets);
@@ -83,15 +92,15 @@
     setValidationCapacity();
   }
 
-  function init() {
+  function initForm() {
     disableControls(adFormFieldsets);
     disableControls(mapFiltersSelects);
     disableControls(mapFilterFieldsets);
-    adType.addEventListener('change', setPrice);
-    adTimeIn.addEventListener('change', setTimeOut);
-    adTimeOut.addEventListener('change', setTimeIn);
-    adRoomNumber.addEventListener('change', setValidationCapacity);
-    adCapacity.addEventListener('change', setValidationCapacity);
+    adType.addEventListener('change', onSetPrice);
+    adTimeIn.addEventListener('change', onTimeOutChange);
+    adTimeOut.addEventListener('change', onTimeInChange);
+    adRoomNumber.addEventListener('change', onValidationCapacityChange);
+    adCapacity.addEventListener('change', onValidationCapacityChange);
     adForm.classList.add('ad-form--disabled');
     addressField.setAttribute('readonly', 'true');
     setAddress(mainPin.offsetLeft + mainPinWidth / 2, mainPin.offsetTop + mainPinHeight / 2);
@@ -100,12 +109,12 @@
     window.card.remove();
   }
 
-  function handleResetFormPage() {
+  function onFormPageReset() {
     window.map.removePins();
     mapElement.classList.add('map--faded');
     mapFilters.reset();
     setAddress(mainPinDefaultX, mainPinDefaultY);
-    init();
+    initForm();
     window.pin.resetMainPinPos();
   }
 
@@ -117,18 +126,18 @@
           window.modal.renderSuccess();
           window.map.removePins();
           adForm.reset();
-          init();
+          initForm();
           window.pin.resetMainPinPos();
         },
         window.modal.renderError);
     evt.preventDefault();
   });
 
-  adForm.addEventListener('reset', handleResetFormPage);
+  adForm.addEventListener('reset', onFormPageReset);
 
   window.form = {
     setAddress: setAddress,
-    activate: activate,
-    init: init,
+    activate: activateForm,
+    init: initForm,
   };
 })();
